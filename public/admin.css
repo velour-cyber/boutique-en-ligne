@@ -67,3 +67,20 @@
   cursor: pointer;
   font-size: 12px;
 }
+.admin-box h2 {
+  font-size: 20px;
+}
+
+.admin-box input,
+input[type="file"] {
+  font-size: 16px;
+  padding: 14px;
+}
+
+.produit-admin-infos h4 {
+  font-size: 15px;
+}
+
+.produit-admin-infos p {
+  font-size: 13px;
+}
