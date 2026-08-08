@@ -1,6 +1,6 @@
 // Infos de la boutique — à modifier pour chaque client
 const boutique = {
-  nom: "SUBMIT1532 STORE",
+  nom: "SUBMIT STORE",
   description: "Vêtements & Accessoires — Brazzaville",
   adresse: "Avenue de la Paix, Brazzaville",
   horaires: "Lun-Sam, 8h - 19h",
@@ -10,8 +10,8 @@ const boutique = {
 
 // Liste des avis — le commerçant pourra en ajouter ici
 const avis = [
-  { nom: "Aïcha K.", note: 5, commentaire: "Très bon service, produit conforme et livraison rapide !" },
-  { nom: "Franck M.", note: 4, commentaire: "Belle qualité, je recommande." },
+  { nom: "Samba Judovy.", note: 5, commentaire: "Très bon service, produit conforme et livraison rapide !" },
+  { nom: "Christian K.", note: 4, commentaire: "Belle qualité, je recommande." },
   { nom: "Grâce T.", note: 5, commentaire: "Réponse rapide sur WhatsApp, très professionnel." }
 ];
 
