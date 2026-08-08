@@ -4,34 +4,69 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Ma Boutique</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@800;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
   <header>
-    <h1 id="nom-boutique">🛍️ Ma Boutique</h1>
-    <p id="description-boutique">Vêtements & Accessoires — Brazzaville</p>
+    <div class="banniere">
+      <div class="badge-logo">
+        <span id="nom-boutique">SUBMITION STORE</span>
+      </div>
+      <p id="description-boutique">Vêtements & Accessoires — Brazzaville</p>
+      <a id="lien-whatsapp" class="btn-whatsapp" href="#" target="_blank" rel="noopener noreferrer">💬 Contacter sur WhatsApp</a>
+    </div>
   </header>
 
-  <div class="infos">
-    <p>📍 <strong>Adresse :</strong> <span id="adresse-boutique"></span></p>
-    <p>🕐 <strong>Horaires :</strong> <span id="horaires-boutique"></span></p>
-    <a id="lien-whatsapp" class="btn-whatsapp" href="#" target="_blank" rel="noopener noreferrer">💬 Contacter sur WhatsApp</a>
-    <a id="lien-maps" class="btn-whatsapp btn-maps" href="#" target="_blank" rel="noopener noreferrer">📍 Voir sur la carte</a>
+  <div class="badges">
+    <span class="badge">✅ Boutique vérifiée</span>
+    <span class="badge">🔥 +120 commandes ce mois</span>
   </div>
 
   <div class="produits" id="liste-produits"></div>
 
+  <div class="section-avis">
+    <h2>⭐ Avis clients</h2>
+    <div class="note-moyenne" id="note-moyenne"></div>
+    <div id="liste-avis"></div>
+    <button class="btn-commander" onclick="ouvrirFormAvis()">✍️ Laisser un avis</button>
+  </div>
+
+  <footer>
+    <p>📍 <span id="adresse-boutique"></span></p>
+    <p>🕐 <span id="horaires-boutique"></span></p>
+    <a id="lien-maps" class="btn-maps-footer" href="#" target="_blank" rel="noopener noreferrer">📍 Voir sur la carte</a>
+    <p class="copyright">© 2026 Submition Store</p>
+  </footer>
 
   <div id="modal-commande" class="modal modal-cachee">
     <div class="modal-contenu">
       <h2>Passer commande</h2>
       <p id="modal-produit"></p>
       <input type="text" id="client-nom" placeholder="Votre nom">
-      <input type="text" id="client-tel" placeholder="Votre numéro de téléphone">
-      <input type="number" id="client-quantite" placeholder="Quantité" value="" min="1">
+      <input type="tel" id="client-tel" placeholder="Votre numéro de téléphone" inputmode="numeric" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+      <input type="number" id="client-quantite" placeholder="Quantité" value="1" min="1">
       <button class="btn-commander" onclick="envoyerCommande()">Envoyer sur WhatsApp</button>
       <button class="btn-fermer" onclick="fermerModal()">Annuler</button>
+    </div>
+  </div>
+
+  <div id="modal-avis" class="modal modal-cachee">
+    <div class="modal-contenu">
+      <h2>Laisser un avis</h2>
+      <p>Votre avis sera envoyé au commerçant</p>
+      <input type="text" id="avis-nom" placeholder="Votre nom">
+      <select id="avis-note" aria-label="Note de l'avis">
+        <option value="5">⭐⭐⭐⭐⭐ Excellent</option>
+        <option value="4">⭐⭐⭐⭐ Très bien</option>
+        <option value="3">⭐⭐⭐ Bien</option>
+        <option value="2">⭐⭐ Moyen</option>
+        <option value="1">⭐ Mauvais</option>
+      </select>
+      <textarea id="avis-commentaire" placeholder="Votre commentaire" rows="3" aria-label="Votre commentaire"></textarea>
+      <button class="btn-commander" onclick="envoyerAvis()">Envoyer sur WhatsApp</button>
+      <button class="btn-fermer" onclick="fermerModalAvis()">Annuler</button>
     </div>
   </div>
 

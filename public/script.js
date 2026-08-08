@@ -1,32 +1,21 @@
 // Infos de la boutique — à modifier pour chaque client
 const boutique = {
-  nom: "Ma Boutique",
+nom: "SUBMIT STORE",
   description: "Vêtements & Accessoires — Brazzaville",
   adresse: "Avenue de la Paix, Brazzaville",
   horaires: "Lun-Sam, 8h - 19h",
-  whatsapp: "242XXXXXXXXX",
+  whatsapp: "242067301532",
   mapsLien: "https://www.google.com/maps/search/?api=1&query=Avenue+de+la+Paix+Brazzaville"
 };
 
-// Liste des produits — modifie/ajoute ici tes vrais produits
-const produits = [
-  {
-    nom: "Chemise homme",
-    prix: "8 000 FCFA",
-    image: "https://via.placeholder.com/220x150"
-  },
-  {
-    nom: "Robe femme",
-    prix: "15 000 FCFA",
-    image: "https://via.placeholder.com/220x150"
-  },
-  {
-    nom: "Sac à main",
-    prix: "12 000 FCFA",
-    image: "https://via.placeholder.com/220x150"
-  }
+// Liste des avis — le commerçant pourra en ajouter ici
+const avis = [
+  { nom: "Aïcha K.", note: 5, commentaire: "Très bon service, produit conforme et livraison rapide !" },
+  { nom: "Franck M.", note: 4, commentaire: "Belle qualité, je recommande." },
+  { nom: "Grâce T.", note: 5, commentaire: "Réponse rapide sur WhatsApp, très professionnel." }
 ];
 
+let produits = [];
 let produitSelectionne = null;
 
 // Remplit les infos de la boutique dans le HTML
@@ -39,23 +28,68 @@ function afficherInfosBoutique() {
   document.getElementById('lien-maps').href = boutique.mapsLien;
 }
 
+// Va chercher les produits dans la base de données (Supabase, via l'API)
+async function chargerProduits() {
+  try {
+    const reponse = await fetch('/api/produits');
+    produits = await reponse.json();
+    afficherProduits();
+  } catch (erreur) {
+    console.error('Erreur de chargement des produits :', erreur);
+  }
+}
+
 // Affiche les cartes produits
 function afficherProduits() {
   const conteneur = document.getElementById('liste-produits');
   conteneur.innerHTML = '';
 
   produits.forEach(produit => {
+    const badgePromo = produit.ancien_prix ? `<span class="badge-promo">PROMO</span>` : '';
+    const ancienPrixHtml = produit.ancien_prix ? `<span class="ancien-prix">${produit.ancien_prix}</span>` : '';
+
     conteneur.innerHTML += `
       <div class="produit">
-        <img src="${produit.image}" alt="${produit.nom}">
+        <div class="image-wrapper">
+          <img src="${produit.image}" alt="${produit.nom}">
+          ${badgePromo}
+        </div>
         <div class="produit-details">
-          <h3>${produit.nom}</h3>
-          <p class="prix">${produit.prix}</p>
+          ${produit.nom ? `<h3>${produit.nom}</h3>` : ''}
+          <p class="prix">${ancienPrixHtml} ${produit.prix}</p>
           <button class="btn-commander" onclick="commander('${produit.nom}', '${produit.prix}')">Commander</button>
         </div>
       </div>
     `;
   });
+}
+
+function genererEtoiles(note) {
+  const pleines = '★'.repeat(note);
+  const vides = '☆'.repeat(5 - note);
+  return pleines + vides;
+}
+
+function afficherAvis() {
+  const conteneur = document.getElementById('liste-avis');
+  const noteMoyenneDiv = document.getElementById('note-moyenne');
+
+  conteneur.innerHTML = '';
+
+  avis.forEach(a => {
+    conteneur.innerHTML += `
+      <div class="avis">
+        <div class="avis-header">
+          <span class="avis-nom">${a.nom}</span>
+          <span class="etoiles">${genererEtoiles(a.note)}</span>
+        </div>
+        <p class="avis-commentaire">${a.commentaire}</p>
+      </div>
+    `;
+  });
+
+  const moyenne = (avis.reduce((total, a) => total + a.note, 0) / avis.length).toFixed(1);
+  noteMoyenneDiv.innerHTML = `${genererEtoiles(Math.floor(moyenne))} ${moyenne}/5 (${avis.length} avis)`;
 }
 
 // Ouvre le formulaire de commande
@@ -93,6 +127,36 @@ Téléphone : ${tel}`;
   fermerModal();
 }
 
+// Formulaire "Laisser un avis"
+function ouvrirFormAvis() {
+  document.getElementById('modal-avis').classList.remove('modal-cachee');
+}
+
+function fermerModalAvis() {
+  document.getElementById('modal-avis').classList.add('modal-cachee');
+}
+
+function envoyerAvis() {
+  const nom = document.getElementById('avis-nom').value;
+  const note = document.getElementById('avis-note').value;
+  const commentaire = document.getElementById('avis-commentaire').value;
+
+  if (!nom || !commentaire) {
+    alert("Merci de remplir votre nom et votre commentaire.");
+    return;
+  }
+
+  const message = `Nouvel avis client :
+Nom : ${nom}
+Note : ${note}/5 ⭐
+Commentaire : ${commentaire}`;
+
+  const url = `https://wa.me/${boutique.whatsapp}?text=${encodeURIComponent(message)}`;
+  window.open(url, '_blank');
+  fermerModalAvis();
+}
+
 // Lance l'affichage au chargement de la page
 afficherInfosBoutique();
-afficherProduits();
+chargerProduits();
+afficherAvis();

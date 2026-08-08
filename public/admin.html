@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Administration - Ma Boutique</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+
+  <header>
+    <h1>🔧 Administration</h1>
+    <p>Gérer les produits de la boutique</p>
+  </header>
+
+  <div id="ecran-login" class="admin-box">
+    <h2>Connexion</h2>
+    <input type="password" id="mot-de-passe" placeholder="Mot de passe">
+    <button class="btn-commander" onclick="verifierMotDePasse()">Se connecter</button>
+    <p id="erreur-login" class="erreur"></p>
+  </div>
+
+  <div id="ecran-admin" class="admin-box cachee">
+    <h2>Ajouter un produit</h2>
+    <input type="text" id="nouveau-nom" placeholder="Nom du produit (optionnel)">
+    <input type="text" id="nouveau-prix" placeholder="Prix (ex: 8 000 FCFA)">
+    <input type="text" id="nouveau-ancien-prix" placeholder="Ancien prix (optionnel, pour une promo)">
+    <label class="label-fichier">📷 Choisir une photo depuis le téléphone</label>
+    <input type="file" id="nouveau-image" accept="image/*">
+    <button class="btn-commander" onclick="ajouterProduit()">Ajouter le produit</button>
+    <p id="message-ajout"></p>
+
+    <h2 style="margin-top:25px;">Mes produits</h2>
+    <div id="liste-admin-produits"></div>
+  </div>
+
+  <script src="admin.js"></script>
+</body>
+</html>

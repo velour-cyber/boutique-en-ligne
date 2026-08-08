@@ -1,0 +1,69 @@
+.admin-box {
+  background-color: white;
+  margin: 15px;
+  padding: 20px;
+  border-radius: 14px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+.admin-box h2 {
+  margin-bottom: 12px;
+  font-size: 18px;
+}
+
+.admin-box input {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 10px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 14px;
+}
+
+.cachee {
+  display: none;
+}
+
+.erreur {
+  color: #e74c3c;
+  font-size: 13px;
+  margin-top: 8px;
+}
+
+.produit-admin {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 0;
+  border-top: 1px solid #eee;
+}
+
+.produit-admin img {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.produit-admin-infos {
+  flex: 1;
+}
+
+.produit-admin-infos h4 {
+  font-size: 14px;
+}
+
+.produit-admin-infos p {
+  font-size: 12px;
+  color: #666;
+}
+
+.btn-supprimer {
+  background-color: #e74c3c;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 12px;
+}
