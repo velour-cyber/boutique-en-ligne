@@ -46,7 +46,7 @@
       <p id="modal-produit"></p>
       <input type="text" id="client-nom" placeholder="Votre nom">
       <input type="tel" id="client-tel" placeholder="Votre numéro de téléphone" inputmode="numeric" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
-      <input type="number" id="client-quantite" placeholder="Quantité" value="0" min="1">
+      <input type="number" id="client-quantite" placeholder="Quantité" value="" min="1">
       <button class="btn-commander" onclick="envoyerCommande()">Envoyer sur WhatsApp</button>
       <button class="btn-fermer" onclick="fermerModal()">Annuler</button>
     </div>
