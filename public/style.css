@@ -391,3 +391,24 @@ footer p {
   opacity: 0.6;
   margin-top: 12px;
 }
+.btn-fermer-image {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background-color: rgba(255,255,255,0.15);
+  color: white;
+  border: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  font-size: 20px;
+  cursor: pointer;
+  z-index: 101;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-fermer-image:active {
+  background-color: rgba(255,255,255,0.3);
+}
