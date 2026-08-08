@@ -1,10 +1,10 @@
 // Infos de la boutique — à modifier pour chaque client
 const boutique = {
-  nom: "SUBMITION STORE",
+  nom: "SUBMIT1532 STORE",
   description: "Vêtements & Accessoires — Brazzaville",
   adresse: "Avenue de la Paix, Brazzaville",
   horaires: "Lun-Sam, 8h - 19h",
-  whatsapp: "242XXXXXXXXX",
+  whatsapp: "242730",
   mapsLien: "https://www.google.com/maps/search/?api=1&query=Avenue+de+la+Paix+Brazzaville"
 };
 
