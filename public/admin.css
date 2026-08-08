@@ -99,3 +99,13 @@ input[type="file"] {
 .produit-admin img:active {
   transform: scale(0.95);
 }
+#modal-image img {
+  max-width: 90%;
+  max-height: 85vh;
+  border-radius: 12px;
+  object-fit: contain;
+}
+
+.produit img {
+  cursor: pointer;
+}

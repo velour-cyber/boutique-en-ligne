@@ -1,10 +1,10 @@
 // Infos de la boutique — à modifier pour chaque client
 const boutique = {
-nom: "SUBMIT STORE",
+  nom: "SUBMITION STORE",
   description: "Vêtements & Accessoires — Brazzaville",
   adresse: "Avenue de la Paix, Brazzaville",
   horaires: "Lun-Sam, 8h - 19h",
-  whatsapp: "242067301532",
+  whatsapp: "242XXXXXXXXX",
   mapsLien: "https://www.google.com/maps/search/?api=1&query=Avenue+de+la+Paix+Brazzaville"
 };
 
@@ -47,21 +47,32 @@ function afficherProduits() {
   produits.forEach(produit => {
     const badgePromo = produit.ancien_prix ? `<span class="badge-promo">PROMO</span>` : '';
     const ancienPrixHtml = produit.ancien_prix ? `<span class="ancien-prix">${produit.ancien_prix}</span>` : '';
+    const nomHtml = produit.nom ? `<h3>${produit.nom}</h3>` : '';
 
     conteneur.innerHTML += `
       <div class="produit">
         <div class="image-wrapper">
-          <img src="${produit.image}" alt="${produit.nom}">
+          <img src="${produit.image}" alt="${produit.nom || 'produit'}" onclick="voirImageProduit('${produit.image}')">
           ${badgePromo}
         </div>
         <div class="produit-details">
-          ${produit.nom ? `<h3>${produit.nom}</h3>` : ''}
+          ${nomHtml}
           <p class="prix">${ancienPrixHtml} ${produit.prix}</p>
-          <button class="btn-commander" onclick="commander('${produit.nom}', '${produit.prix}')">Commander</button>
+          <button class="btn-commander" onclick="commander('${produit.nom || ''}', '${produit.prix}')">Commander</button>
         </div>
       </div>
     `;
   });
+}
+
+// Aperçu de l'image en grand
+function voirImageProduit(url) {
+  document.getElementById('image-agrandie').src = url;
+  document.getElementById('modal-image').classList.remove('modal-cachee');
+}
+
+function fermerApercu() {
+  document.getElementById('modal-image').classList.add('modal-cachee');
 }
 
 function genererEtoiles(note) {
@@ -95,7 +106,8 @@ function afficherAvis() {
 // Ouvre le formulaire de commande
 function commander(nomProduit, prix) {
   produitSelectionne = { nom: nomProduit, prix: prix };
-  document.getElementById('modal-produit').textContent = `${nomProduit} — ${prix}`;
+  const texteProduit = nomProduit ? `${nomProduit} — ${prix}` : prix;
+  document.getElementById('modal-produit').textContent = texteProduit;
   document.getElementById('modal-commande').classList.remove('modal-cachee');
 }
 
@@ -115,8 +127,12 @@ function envoyerCommande() {
     return;
   }
 
+  const ligneProduit = produitSelectionne.nom
+    ? `Produit : ${produitSelectionne.nom}`
+    : `Produit`;
+
   const message = `Bonjour, je souhaite commander :
-Produit : ${produitSelectionne.nom}
+${ligneProduit}
 Prix : ${produitSelectionne.prix}
 Quantité : ${quantite}
 Nom : ${nom}
