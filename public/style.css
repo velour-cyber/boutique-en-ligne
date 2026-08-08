@@ -183,6 +183,9 @@ header {
 
 .produit-details {
   padding: 12px;
+  display: flex;
+  flex-direction: column;
+  min-height: 100px;
 }
 
 .produit-details h3 {
@@ -390,4 +393,7 @@ footer p {
   font-size: 11px;
   opacity: 0.6;
   margin-top: 12px;
+}
+.produit-details .btn-commander {
+  margin-top: auto;
 }
