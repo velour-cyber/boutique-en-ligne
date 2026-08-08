@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ma Boutique</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <header>
+    <h1 id="nom-boutique">🛍️ Ma Boutique</h1>
+    <p id="description-boutique">Vêtements & Accessoires — Brazzaville</p>
+  </header>
+
+  <div class="infos">
+    <p>📍 <strong>Adresse :</strong> <span id="adresse-boutique"></span></p>
+    <p>🕐 <strong>Horaires :</strong> <span id="horaires-boutique"></span></p>
+    <a id="lien-whatsapp" class="btn-whatsapp" href="#" target="_blank" rel="noopener noreferrer">💬 Contacter sur WhatsApp</a>
+    <a id="lien-maps" class="btn-whatsapp btn-maps" href="#" target="_blank" rel="noopener noreferrer">📍 Voir sur la carte</a>
+  </div>
+
+  <div class="produits" id="liste-produits"></div>
+
+
+  <div id="modal-commande" class="modal modal-cachee">
+    <div class="modal-contenu">
+      <h2>Passer commande</h2>
+      <p id="modal-produit"></p>
+      <input type="text" id="client-nom" placeholder="Votre nom">
+      <input type="text" id="client-tel" placeholder="Votre numéro de téléphone">
+      <input type="number" id="client-quantite" placeholder="Quantité" value="" min="1">
+      <button class="btn-commander" onclick="envoyerCommande()">Envoyer sur WhatsApp</button>
+      <button class="btn-fermer" onclick="fermerModal()">Annuler</button>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
