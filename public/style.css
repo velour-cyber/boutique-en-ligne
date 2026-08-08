@@ -154,12 +154,12 @@ header {
 }
 
 .produit:hover img {
-  transform: scale(1.08);
-  filter: brightness(0.9);
+  transform: scale(1.03);
+  filter: brightness(0.95);
 }
 
 .produit:active img {
-  transform: scale(1.05);
+  transform: scale(1.02);
 }
 
 .badge-promo {
