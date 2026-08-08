@@ -20,7 +20,7 @@ async function chargerProduitsAdmin() {
   produits.forEach(p => {
     conteneur.innerHTML += `
       <div class="produit-admin">
-        <img src="${p.image}" alt="${p.nom}">
+       <img src="${p.image}" alt="${p.nom}" onclick="voirImage('${p.image}')">
         <div class="produit-admin-infos">
           <h4>${p.nom}</h4>
           <p>${p.prix}</p>
@@ -29,6 +29,15 @@ async function chargerProduitsAdmin() {
       </div>
     `;
   });
+}
+
+function voirImage(url) {
+  document.getElementById('image-agrandie').src = url;
+  document.getElementById('modal-image').classList.remove('modal-cachee');
+}
+
+function fermerApercu() {
+  document.getElementById('modal-image').classList.add('modal-cachee');
 }
 
 async function ajouterProduit() {
@@ -74,6 +83,7 @@ async function ajouterProduit() {
     document.getElementById('message-ajout').textContent = "Erreur lors de l'ajout.";
   }
 }
+
 async function supprimerProduit(id) {
   if (!confirm("Supprimer ce produit ?")) return;
   await fetch(`/api/produits/${id}`, { method: 'DELETE' });

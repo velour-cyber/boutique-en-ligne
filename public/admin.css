@@ -84,3 +84,18 @@ input[type="file"] {
 .produit-admin-infos p {
   font-size: 13px;
 }
+#modal-image img {
+  max-width: 90%;
+  max-height: 85vh;
+  border-radius: 12px;
+  object-fit: contain;
+}
+
+.produit-admin img {
+  cursor: pointer;
+  transition: transform 0.15s ease;
+}
+
+.produit-admin img:active {
+  transform: scale(0.95);
+}
