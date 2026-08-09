@@ -4,7 +4,7 @@ const boutique = {
   description: "Vêtements & Accessoires — Brazzaville",
   adresse: "Avenue de la Paix, Brazzaville",
   horaires: "Lun-Sam, 8h - 19h",
-  whatsapp: "242067301532"
+  whatsapp: "242067301532",
   mapsLien: "https://www.google.com/maps/search/?api=1&query=Avenue+de+la+Paix+Brazzaville"
 };
 
