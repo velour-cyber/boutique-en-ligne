@@ -1,4 +1,3 @@
-
 const multer = require('multer');
 const upload = multer({ storage: multer.memoryStorage() });
 const express = require('express');
@@ -16,6 +15,13 @@ app.get('/api/produits', async (req, res) => {
 });
 
 // Ajouter un produit
+app.post('/api/produits', async (req, res) => {
+  const { nom, prix, ancien_prix, image, vedette } = req.body;
+  const { data, error } = await supabase.from('produits').insert([{ nom, prix, ancien_prix, image, vedette: !!vedette }]).select();
+  if (error) return res.status(500).json({ error: error.message });
+  res.json(data);
+});
+
 // Basculer le statut vedette d'un produit
 app.patch('/api/produits/:id/vedette', async (req, res) => {
   const { id } = req.params;
@@ -24,6 +30,7 @@ app.patch('/api/produits/:id/vedette', async (req, res) => {
   if (error) return res.status(500).json({ error: error.message });
   res.json(data);
 });
+
 // Supprimer un produit
 app.delete('/api/produits/:id', async (req, res) => {
   const { id } = req.params;
@@ -31,6 +38,7 @@ app.delete('/api/produits/:id', async (req, res) => {
   if (error) return res.status(500).json({ error: error.message });
   res.json({ success: true });
 });
+
 // Upload d'une image produit
 app.post('/api/upload', upload.single('image'), async (req, res) => {
   if (!req.file) return res.status(400).json({ error: 'Aucun fichier reçu.' });
@@ -46,6 +54,7 @@ app.post('/api/upload', upload.single('image'), async (req, res) => {
   const { data } = supabase.storage.from('images-produits').getPublicUrl(nomFichier);
   res.json({ url: data.publicUrl });
 });
+
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Serveur lancé sur le port ${PORT}`);
