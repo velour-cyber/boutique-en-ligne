@@ -412,3 +412,53 @@ footer p {
 .btn-fermer-image:active {
   background-color: rgba(255,255,255,0.3);
 }
+.carrousel-section {
+  padding: 15px 0 5px;
+}
+
+.carrousel-titre {
+  font-size: 16px;
+  padding: 0 15px;
+  margin-bottom: 10px;
+}
+
+.carrousel {
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 0 15px 10px;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+}
+
+.carrousel::-webkit-scrollbar {
+  display: none;
+}
+
+.carrousel-item {
+  flex: 0 0 auto;
+  width: 130px;
+  scroll-snap-align: start;
+  background-color: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  cursor: pointer;
+}
+
+.carrousel-item img {
+  width: 100%;
+  height: 130px;
+  object-fit: contain;
+  background-color: #f0f0f0;
+  display: block;
+}
+
+.carrousel-item p {
+  font-size: 12px;
+  font-weight: 600;
+  padding: 8px;
+  color: #1e3a5f;
+  text-align: center;
+}

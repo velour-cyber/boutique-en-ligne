@@ -4,14 +4,14 @@ const boutique = {
   description: "Vêtements & Accessoires — Brazzaville",
   adresse: "Avenue de la Paix, Brazzaville",
   horaires: "Lun-Sam, 8h - 19h",
-  whatsapp: "242067301532",
+  whatsapp: "242067301532"
   mapsLien: "https://www.google.com/maps/search/?api=1&query=Avenue+de+la+Paix+Brazzaville"
 };
 
 // Liste des avis — le commerçant pourra en ajouter ici
 const avis = [
-  { nom: "Samba Judovy.", note: 5, commentaire: "Très bon service, produit conforme et livraison rapide !" },
-  { nom: "Christian K.", note: 4, commentaire: "Belle qualité, je recommande." },
+  { nom: "Aïcha K.", note: 5, commentaire: "Très bon service, produit conforme et livraison rapide !" },
+  { nom: "Franck M.", note: 4, commentaire: "Belle qualité, je recommande." },
   { nom: "Grâce T.", note: 5, commentaire: "Réponse rapide sur WhatsApp, très professionnel." }
 ];
 
@@ -34,6 +34,7 @@ async function chargerProduits() {
     const reponse = await fetch('/api/produits');
     produits = await reponse.json();
     afficherProduits();
+    afficherCarrousel();
   } catch (erreur) {
     console.error('Erreur de chargement des produits :', erreur);
   }
@@ -60,6 +61,21 @@ function afficherProduits() {
           <p class="prix">${ancienPrixHtml} ${produit.prix}</p>
           <button class="btn-commander" onclick="commander('${produit.nom || ''}', '${produit.prix}')">Commander</button>
         </div>
+      </div>
+    `;
+  });
+}
+
+// Affiche le carrousel de produits vedettes
+function afficherCarrousel() {
+  const conteneur = document.getElementById('carrousel-produits');
+  conteneur.innerHTML = '';
+
+  produits.slice(0, 8).forEach(produit => {
+    conteneur.innerHTML += `
+      <div class="carrousel-item" onclick="voirImageProduit('${produit.image}')">
+        <img src="${produit.image}" alt="${produit.nom || 'produit'}">
+        ${produit.nom ? `<p>${produit.nom}</p>` : ''}
       </div>
     `;
   });
