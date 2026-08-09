@@ -109,3 +109,31 @@ input[type="file"] {
 .produit img {
   cursor: pointer;
 }
+.checkbox-vedette {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  margin-bottom: 12px;
+  color: #333;
+}
+
+.checkbox-vedette input {
+  width: 18px;
+  height: 18px;
+}
+
+.btn-vedette {
+  background-color: #f5a623;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 12px;
+  margin-right: 6px;
+}
+
+.btn-vedette.actif {
+  background-color: #d68910;
+}

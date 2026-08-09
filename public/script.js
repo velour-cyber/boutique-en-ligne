@@ -1,10 +1,10 @@
 // Infos de la boutique — à modifier pour chaque client
 const boutique = {
-  nom: "SUBMIT STORE",
+  nom: "SUBMITION STORE",
   description: "Vêtements & Accessoires — Brazzaville",
   adresse: "Avenue de la Paix, Brazzaville",
   horaires: "Lun-Sam, 8h - 19h",
-  whatsapp: "242067301532",
+  whatsapp: "242XXXXXXXXX",
   mapsLien: "https://www.google.com/maps/search/?api=1&query=Avenue+de+la+Paix+Brazzaville"
 };
 
@@ -17,6 +17,7 @@ const avis = [
 
 let produits = [];
 let produitSelectionne = null;
+let intervalDefilement = null;
 
 // Remplit les infos de la boutique dans le HTML
 function afficherInfosBoutique() {
@@ -66,12 +67,14 @@ function afficherProduits() {
   });
 }
 
-// Affiche le carrousel de produits vedettes
+// Affiche le carrousel des produits vedette
 function afficherCarrousel() {
   const conteneur = document.getElementById('carrousel-produits');
   conteneur.innerHTML = '';
 
-  produits.slice(0, 8).forEach(produit => {
+  const produitsVedette = produits.filter(p => p.vedette);
+
+  produitsVedette.forEach(produit => {
     conteneur.innerHTML += `
       <div class="carrousel-item" onclick="voirImageProduit('${produit.image}')">
         <img src="${produit.image}" alt="${produit.nom || 'produit'}">
@@ -79,6 +82,30 @@ function afficherCarrousel() {
       </div>
     `;
   });
+
+  demarrerDefilementAuto();
+}
+
+// Défilement automatique du carrousel
+function demarrerDefilementAuto() {
+  const carrousel = document.getElementById('carrousel-produits');
+  if (!carrousel || carrousel.children.length === 0) return;
+
+  if (intervalDefilement) clearInterval(intervalDefilement);
+
+  intervalDefilement = setInterval(() => {
+    const largeurItem = carrousel.children[0].offsetWidth + 12;
+    const finAtteinte = carrousel.scrollLeft + carrousel.clientWidth >= carrousel.scrollWidth - 5;
+
+    if (finAtteinte) {
+      carrousel.scrollTo({ left: 0, behavior: 'smooth' });
+    } else {
+      carrousel.scrollBy({ left: largeurItem, behavior: 'smooth' });
+    }
+  }, 2500);
+
+  carrousel.addEventListener('touchstart', () => clearInterval(intervalDefilement));
+  carrousel.addEventListener('mousedown', () => clearInterval(intervalDefilement));
 }
 
 // Aperçu de l'image en grand

@@ -22,9 +22,10 @@ async function chargerProduitsAdmin() {
       <div class="produit-admin">
        <img src="${p.image}" alt="${p.nom}" onclick="voirImage('${p.image}')">
         <div class="produit-admin-infos">
-          <h4>${p.nom}</h4>
+          <h4>${p.nom || '(sans nom)'}</h4>
           <p>${p.prix}</p>
         </div>
+        <button class="btn-vedette ${p.vedette ? 'actif' : ''}" onclick="basculerVedette(${p.id}, ${!p.vedette})">${p.vedette ? '⭐ Retirer' : '☆ Mettre en vedette'}</button>
         <button class="btn-supprimer" onclick="supprimerProduit(${p.id})">Supprimer</button>
       </div>
     `;
@@ -45,6 +46,7 @@ async function ajouterProduit() {
   const prix = document.getElementById('nouveau-prix').value;
   const ancien_prix = document.getElementById('nouveau-ancien-prix').value || null;
   const fichierImage = document.getElementById('nouveau-image').files[0];
+  const vedette = document.getElementById('nouveau-vedette').checked;
 
   if (!prix || !fichierImage) {
     document.getElementById('message-ajout').textContent = "Remplis au moins le prix et choisis une photo.";
@@ -69,7 +71,7 @@ async function ajouterProduit() {
   const reponse = await fetch('/api/produits', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ nom, prix, ancien_prix, image: uploadData.url })
+    body: JSON.stringify({ nom, prix, ancien_prix, image: uploadData.url, vedette })
   });
 
   if (reponse.ok) {
@@ -78,10 +80,20 @@ async function ajouterProduit() {
     document.getElementById('nouveau-prix').value = '';
     document.getElementById('nouveau-ancien-prix').value = '';
     document.getElementById('nouveau-image').value = '';
+    document.getElementById('nouveau-vedette').checked = false;
     chargerProduitsAdmin();
   } else {
     document.getElementById('message-ajout').textContent = "Erreur lors de l'ajout.";
   }
+}
+
+async function basculerVedette(id, nouveauStatut) {
+  await fetch(`/api/produits/${id}/vedette`, {
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ vedette: nouveauStatut })
+  });
+  chargerProduitsAdmin();
 }
 
 async function supprimerProduit(id) {

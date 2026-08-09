@@ -16,9 +16,11 @@ app.get('/api/produits', async (req, res) => {
 });
 
 // Ajouter un produit
-app.post('/api/produits', async (req, res) => {
-  const { nom, prix, ancien_prix, image } = req.body;
-  const { data, error } = await supabase.from('produits').insert([{ nom, prix, ancien_prix, image }]).select();
+// Basculer le statut vedette d'un produit
+app.patch('/api/produits/:id/vedette', async (req, res) => {
+  const { id } = req.params;
+  const { vedette } = req.body;
+  const { data, error } = await supabase.from('produits').update({ vedette }).eq('id', id).select();
   if (error) return res.status(500).json({ error: error.message });
   res.json(data);
 });
