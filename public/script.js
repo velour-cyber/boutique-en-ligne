@@ -10,10 +10,9 @@ const boutique = {
 
 // Liste des avis — le commerçant pourra en ajouter ici
 const avis = [
-  { nom: "SAMBA J.", note: 5, commentaire: "Très bon service, produit conforme et livraison rapide !" },
+  { nom: "SAMBA J,", note: 5, commentaire: "Très bon service, produit conforme et livraison rapide !" },
   { nom: "Christian K.", note: 4, commentaire: "Belle qualité, je recommande." },
   { nom: "Syverlan M.", note: 5, commentaire: "Réponse rapide sur WhatsApp, très professionnel." }
-
 ];
 
 let produits = [];
