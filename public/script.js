@@ -1,6 +1,6 @@
 // Infos de la boutique — à modifier pour chaque client
 const boutique = {
-  nom: "SUBMI STORE",
+  nom: "SUBMIT STORE",
   description: "Vêtements & Accessoires — Brazzaville",
   adresse: "Avenue de la Paix, Brazzaville",
   horaires: "Lun-Sam, 8h - 19h",
@@ -21,7 +21,6 @@ let intervalDefilement = null;
 let indexToast = 0;
 let intervalToast = null;
 
-// Remplit les infos de la boutique dans le HTML
 function afficherInfosBoutique() {
   document.getElementById('nom-boutique').textContent = boutique.nom;
   document.getElementById('description-boutique').textContent = boutique.description;
@@ -31,7 +30,6 @@ function afficherInfosBoutique() {
   document.getElementById('lien-maps').href = boutique.mapsLien;
 }
 
-// Va chercher les produits dans la base de données (Supabase, via l'API)
 async function chargerProduits() {
   try {
     const reponse = await fetch('/api/produits');
@@ -43,7 +41,6 @@ async function chargerProduits() {
   }
 }
 
-// Affiche les cartes produits
 function afficherProduits() {
   const conteneur = document.getElementById('liste-produits');
   conteneur.innerHTML = '';
@@ -69,7 +66,6 @@ function afficherProduits() {
   });
 }
 
-// Affiche le carrousel des produits vedette
 function afficherCarrousel() {
   const conteneur = document.getElementById('carrousel-produits');
   conteneur.innerHTML = '';
@@ -88,7 +84,6 @@ function afficherCarrousel() {
   demarrerDefilementAuto();
 }
 
-// Défilement automatique du carrousel, en va-et-vient
 function demarrerDefilementAuto() {
   const carrousel = document.getElementById('carrousel-produits');
   if (!carrousel || carrousel.children.length === 0) return;
@@ -112,7 +107,6 @@ function demarrerDefilementAuto() {
   carrousel.addEventListener('mousedown', () => clearInterval(intervalDefilement));
 }
 
-// Aperçu de l'image en grand
 function voirImageProduit(url) {
   document.getElementById('image-agrandie').src = url;
   document.getElementById('modal-image').classList.remove('modal-cachee');
@@ -129,28 +123,11 @@ function genererEtoiles(note) {
 }
 
 function afficherAvis() {
-  const conteneur = document.getElementById('liste-avis');
   const noteMoyenneDiv = document.getElementById('note-moyenne');
-
-  conteneur.innerHTML = '';
-
-  avis.forEach(a => {
-    conteneur.innerHTML += `
-      <div class="avis">
-        <div class="avis-header">
-          <span class="avis-nom">${a.nom}</span>
-          <span class="etoiles">${genererEtoiles(a.note)}</span>
-        </div>
-        <p class="avis-commentaire">${a.commentaire}</p>
-      </div>
-    `;
-  });
-
   const moyenne = (avis.reduce((total, a) => total + a.note, 0) / avis.length).toFixed(1);
   noteMoyenneDiv.innerHTML = `${genererEtoiles(Math.floor(moyenne))} ${moyenne}/5 (${avis.length} avis)`;
 }
 
-// Petite fenêtre "toast" en bas avec les avis qui défilent
 function demarrerToastAvis() {
   if (avis.length === 0) return;
 
@@ -180,7 +157,6 @@ function fermerToast() {
   clearInterval(intervalToast);
 }
 
-// Ouvre le formulaire de commande
 function commander(nomProduit, prix) {
   produitSelectionne = { nom: nomProduit, prix: prix };
   const texteProduit = nomProduit ? `${nomProduit} — ${prix}` : prix;
@@ -188,12 +164,10 @@ function commander(nomProduit, prix) {
   document.getElementById('modal-commande').classList.remove('modal-cachee');
 }
 
-// Ferme le formulaire de commande
 function fermerModal() {
   document.getElementById('modal-commande').classList.add('modal-cachee');
 }
 
-// Envoie la commande sur WhatsApp
 function envoyerCommande() {
   const nom = document.getElementById('client-nom').value;
   const tel = document.getElementById('client-tel').value;
@@ -220,7 +194,6 @@ Téléphone : ${tel}`;
   fermerModal();
 }
 
-// Formulaire "Laisser un avis"
 function ouvrirFormAvis() {
   document.getElementById('modal-avis').classList.remove('modal-cachee');
 }
@@ -249,7 +222,6 @@ Commentaire : ${commentaire}`;
   fermerModalAvis();
 }
 
-// Lance l'affichage au chargement de la page
 afficherInfosBoutique();
 chargerProduits();
 afficherAvis();
