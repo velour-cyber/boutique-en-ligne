@@ -462,3 +462,52 @@ footer p {
   color: #1e3a5f;
   text-align: center;
 }
+.toast-avis {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  max-width: 260px;
+  background-color: white;
+  border-radius: 12px;
+  padding: 14px 16px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+  z-index: 90;
+  animation: glisserEntrer 0.3s ease;
+}
+
+.toast-avis.cachee {
+  display: none;
+}
+
+@keyframes glisserEntrer {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.toast-fermer {
+  position: absolute;
+  top: 6px;
+  right: 8px;
+  background: none;
+  border: none;
+  color: #999;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.toast-etoiles {
+  color: #f5a623;
+  font-size: 13px;
+  margin-bottom: 4px;
+}
+
+.toast-nom {
+  font-weight: 600;
+  font-size: 13px;
+  margin-bottom: 2px;
+}
+
+.toast-commentaire {
+  font-size: 12px;
+  color: #666;
+}

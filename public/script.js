@@ -1,10 +1,10 @@
 // Infos de la boutique — à modifier pour chaque client
 const boutique = {
-  nom: "SUBMITION STORE",
+  nom: "SUBMI STORE",
   description: "Vêtements & Accessoires — Brazzaville",
   adresse: "Avenue de la Paix, Brazzaville",
   horaires: "Lun-Sam, 8h - 19h",
-  whatsapp: "242XXXXXXXXX",
+  whatsapp: "242067301532",
   mapsLien: "https://www.google.com/maps/search/?api=1&query=Avenue+de+la+Paix+Brazzaville"
 };
 
@@ -18,6 +18,8 @@ const avis = [
 let produits = [];
 let produitSelectionne = null;
 let intervalDefilement = null;
+let indexToast = 0;
+let intervalToast = null;
 
 // Remplit les infos de la boutique dans le HTML
 function afficherInfosBoutique() {
@@ -86,22 +88,24 @@ function afficherCarrousel() {
   demarrerDefilementAuto();
 }
 
-// Défilement automatique du carrousel
+// Défilement automatique du carrousel, en va-et-vient
 function demarrerDefilementAuto() {
   const carrousel = document.getElementById('carrousel-produits');
   if (!carrousel || carrousel.children.length === 0) return;
 
   if (intervalDefilement) clearInterval(intervalDefilement);
 
+  let sens = 1;
+
   intervalDefilement = setInterval(() => {
     const largeurItem = carrousel.children[0].offsetWidth + 12;
-    const finAtteinte = carrousel.scrollLeft + carrousel.clientWidth >= carrousel.scrollWidth - 5;
+    const finDroite = carrousel.scrollLeft + carrousel.clientWidth >= carrousel.scrollWidth - 5;
+    const finGauche = carrousel.scrollLeft <= 5;
 
-    if (finAtteinte) {
-      carrousel.scrollTo({ left: 0, behavior: 'smooth' });
-    } else {
-      carrousel.scrollBy({ left: largeurItem, behavior: 'smooth' });
-    }
+    if (finDroite) sens = -1;
+    if (finGauche) sens = 1;
+
+    carrousel.scrollBy({ left: largeurItem * sens, behavior: 'smooth' });
   }, 2500);
 
   carrousel.addEventListener('touchstart', () => clearInterval(intervalDefilement));
@@ -144,6 +148,36 @@ function afficherAvis() {
 
   const moyenne = (avis.reduce((total, a) => total + a.note, 0) / avis.length).toFixed(1);
   noteMoyenneDiv.innerHTML = `${genererEtoiles(Math.floor(moyenne))} ${moyenne}/5 (${avis.length} avis)`;
+}
+
+// Petite fenêtre "toast" en bas avec les avis qui défilent
+function demarrerToastAvis() {
+  if (avis.length === 0) return;
+
+  afficherToastSuivant();
+  intervalToast = setInterval(afficherToastSuivant, 6000);
+}
+
+function afficherToastSuivant() {
+  const toast = document.getElementById('toast-avis');
+  const a = avis[indexToast];
+
+  document.getElementById('toast-etoiles').textContent = genererEtoiles(a.note);
+  document.getElementById('toast-nom').textContent = a.nom;
+  document.getElementById('toast-commentaire').textContent = a.commentaire;
+
+  toast.classList.remove('cachee');
+
+  setTimeout(() => {
+    toast.classList.add('cachee');
+  }, 4000);
+
+  indexToast = (indexToast + 1) % avis.length;
+}
+
+function fermerToast() {
+  document.getElementById('toast-avis').classList.add('cachee');
+  clearInterval(intervalToast);
 }
 
 // Ouvre le formulaire de commande
@@ -219,3 +253,4 @@ Commentaire : ${commentaire}`;
 afficherInfosBoutique();
 chargerProduits();
 afficherAvis();
+demarrerToastAvis();
