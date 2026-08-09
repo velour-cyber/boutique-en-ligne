@@ -1,4 +1,3 @@
-// Infos de la boutique — à modifier pour chaque client
 const boutique = {
   nom: "SUBMIT STORE",
   description: "Vêtements & Accessoires — Brazzaville",
@@ -8,7 +7,6 @@ const boutique = {
   mapsLien: "https://www.google.com/maps/search/?api=1&query=Avenue+de+la+Paix+Brazzaville"
 };
 
-// Liste des avis — le commerçant pourra en ajouter ici
 const avis = [
   { nom: "SAMBA J,", note: 5, commentaire: "Très bon service, produit conforme et livraison rapide !" },
   { nom: "Christian K.", note: 4, commentaire: "Belle qualité, je recommande." },
@@ -17,7 +15,7 @@ const avis = [
 
 let produits = [];
 let produitSelectionne = null;
-let intervalDefilement = null;
+let animationFrameId = null;
 let indexToast = 0;
 let intervalToast = null;
 
@@ -36,8 +34,21 @@ async function chargerProduits() {
     produits = await reponse.json();
     afficherProduits();
     afficherCarrousel();
+    definirFondBanniere();
   } catch (erreur) {
     console.error('Erreur de chargement des produits :', erreur);
+  }
+}
+
+function definirFondBanniere() {
+  const fond = document.getElementById('banniere-fond');
+  if (!fond) return;
+
+  const produitsVedette = produits.filter(p => p.vedette);
+  const imageChoisie = produitsVedette.length > 0 ? produitsVedette[0].image : (produits[0]?.image || '');
+
+  if (imageChoisie) {
+    fond.style.backgroundImage = `url('${imageChoisie}')`;
   }
 }
 
@@ -71,8 +82,11 @@ function afficherCarrousel() {
   conteneur.innerHTML = '';
 
   const produitsVedette = produits.filter(p => p.vedette);
+  if (produitsVedette.length === 0) return;
 
-  produitsVedette.forEach(produit => {
+  const doubled = [...produitsVedette, ...produitsVedette];
+
+  doubled.forEach(produit => {
     conteneur.innerHTML += `
       <div class="carrousel-item" onclick="voirImageProduit('${produit.image}')">
         <img src="${produit.image}" alt="${produit.nom || 'produit'}">
@@ -88,23 +102,28 @@ function demarrerDefilementAuto() {
   const carrousel = document.getElementById('carrousel-produits');
   if (!carrousel || carrousel.children.length === 0) return;
 
-  if (intervalDefilement) clearInterval(intervalDefilement);
+  if (animationFrameId) cancelAnimationFrame(animationFrameId);
 
-  let sens = 1;
+  let enPause = false;
+  const vitesse = 0.6;
 
-  intervalDefilement = setInterval(() => {
-    const largeurItem = carrousel.children[0].offsetWidth + 12;
-    const finDroite = carrousel.scrollLeft + carrousel.clientWidth >= carrousel.scrollWidth - 5;
-    const finGauche = carrousel.scrollLeft <= 5;
+  function step() {
+    if (!enPause) {
+      carrousel.scrollLeft += vitesse;
+      const moitie = carrousel.scrollWidth / 2;
+      if (carrousel.scrollLeft >= moitie) {
+        carrousel.scrollLeft -= moitie;
+      }
+    }
+    animationFrameId = requestAnimationFrame(step);
+  }
 
-    if (finDroite) sens = -1;
-    if (finGauche) sens = 1;
+  animationFrameId = requestAnimationFrame(step);
 
-    carrousel.scrollBy({ left: largeurItem * sens, behavior: 'smooth' });
-  }, 2500);
-
-  carrousel.addEventListener('touchstart', () => clearInterval(intervalDefilement));
-  carrousel.addEventListener('mousedown', () => clearInterval(intervalDefilement));
+  carrousel.addEventListener('touchstart', () => { enPause = true; });
+  carrousel.addEventListener('touchend', () => { setTimeout(() => enPause = false, 3000); });
+  carrousel.addEventListener('mousedown', () => { enPause = true; });
+  carrousel.addEventListener('mouseup', () => { setTimeout(() => enPause = false, 3000); });
 }
 
 function voirImageProduit(url) {

@@ -15,13 +15,30 @@ header {
 }
 
 .banniere {
-  background: linear-gradient(135deg, #1e3a5f, #2c5282);
+  position: relative;
+  overflow: hidden;
+  background-color: #1e3a5f;
   color: white;
-  padding: 45px 20px;
   text-align: center;
 }
 
-.banniere p {
+.banniere-fond {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  filter: blur(18px) brightness(0.45);
+  transform: scale(1.15);
+  z-index: 0;
+}
+
+.banniere-contenu {
+  position: relative;
+  z-index: 1;
+  padding: 45px 20px;
+}
+
+.banniere-contenu p {
   font-size: 14px;
   opacity: 0.9;
 }
@@ -84,7 +101,6 @@ header {
   overflow-x: auto;
   overflow-y: hidden;
   padding: 0 15px 10px;
-  scroll-snap-type: x mandatory;
   -webkit-overflow-scrolling: touch;
 }
 
@@ -95,7 +111,6 @@ header {
 .carrousel-item {
   flex: 0 0 auto;
   width: 130px;
-  scroll-snap-align: start;
   background-color: white;
   border-radius: 12px;
   overflow: hidden;
